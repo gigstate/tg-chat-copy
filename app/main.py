@@ -12,8 +12,6 @@ client = TelegramClient(session, api_id, api_hash)
 
 @client.on(events.NewMessage(chats=src_chat, outgoing=False))
 async def handler(event: types.Message) -> None:
-    if not event.media:
-        return
     await copy_message(event)
 
 async def copy_message(event: types.Message) -> None:
