@@ -2,7 +2,7 @@
 
 
 ## What it does
-This bot can copy (not forward) messages from a channel (which doesn't have administrator privileges on it) to another chat (simple user, channel, etc)
+This bot can copy (not forward) messages from a chat or channel (which doesn't have administrator privileges on it) to another chat (simple user, channel, etc)
 
 ## How to use
 1. Copy `.env.example` to `.env`.
