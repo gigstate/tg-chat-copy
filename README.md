@@ -13,14 +13,6 @@ This bot can copy (not forward) messages from a chat or channel (which doesn't h
 3. Run it and login to telegram (may take some minutes to build image for the first time):
     ```
     sudo docker-compose run bot
-    ```
-4. After logging in you will see your chat names and their chat id. Just copy chat id of source and destination chats and put them inside App Configuration section of `.env`.
-5. Rebuild the docker image:
-    ```
-    sudo docker-compose build
-    ```
-6. Run the script as a daemon:
-     ```
-    sudo docker-compose up -d
+ 
     ```
 
