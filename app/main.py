@@ -1,6 +1,7 @@
-from telethon import TelegramClient, events, types
+from pyrogram import Client, filters, types
 from sys import exit
-from env import env
+from conf import env
+
 
 api_id = env.int("API_ID")
 api_hash = env.str("API_HASH")
@@ -8,14 +9,21 @@ session = env.str("SESSION")
 src_chat = env.int("SOURCE") or None
 dst_chat = env.int("DESTINATION") or None
 
-client = TelegramClient(session, api_id, api_hash)
+bot = Client(session, api_id, api_hash)
+media_group_ids = []
 
-@client.on(events.NewMessage(chats=src_chat, outgoing=False))
-async def handler(event: types.Message) -> None:
-    await copy_message(event)
+@bot.on_message(filters.chat(src_chat) & filters.media_group)
+async def mg_handler(client, msg: types.Message) -> None:
+    if msg.media_group_id not in media_group_ids:
+        media_group_ids.append(msg.media_group_id)
+        await bot.copy_media_group(dst_chat, src_chat, msg.message_id)
 
-async def copy_message(event: types.Message) -> None:
-    await client.send_message(dst_chat, event.message)
+@bot.on_message(filters.chat(src_chat) & filters.media)
+async def handler(client, msg: types.Message) -> None:
+    if msg.media_group_id:
+        await bot.copy_media_group(dst_chat, src_chat, msg.message_id)
+        return
+    await bot.copy_message(dst_chat, src_chat, msg.message_id)
 
 if __name__ == "__main__":
     if session is None:
@@ -24,6 +32,5 @@ if __name__ == "__main__":
     if (src_chat is None or dst_chat is None):
         print("\nPlease enter SOURCE and DESTINATION in .env file")
         exit(1)
-    client.start()
     print("Bot is running.")
-    client.run_until_disconnected()
+    bot.run()
