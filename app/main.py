@@ -5,7 +5,7 @@ from conf import env
 
 api_id = env.int("API_ID")
 api_hash = env.str("API_HASH")
-session = env.str("SESSION")
+session = env.str("SESSION") or None
 src_chat = env.int("SOURCE") or None
 dst_chat = env.int("DESTINATION") or None
 
@@ -20,9 +20,6 @@ async def mg_handler(client, msg: types.Message) -> None:
 
 @bot.on_message(filters.chat(src_chat) & filters.media)
 async def handler(client, msg: types.Message) -> None:
-    if msg.media_group_id:
-        await bot.copy_media_group(dst_chat, src_chat, msg.message_id)
-        return
     await bot.copy_message(dst_chat, src_chat, msg.message_id)
 
 if __name__ == "__main__":
