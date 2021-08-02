@@ -1,2 +1,2 @@
 environs==9.3.2
-telethon==1.23.0
+Pyrogram==1.2.9
