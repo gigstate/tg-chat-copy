@@ -1,7 +1,7 @@
 from pyrogram.handlers import MessageHandler
 from pyrogram import Client, filters, types
 from sys import exit
-from conf import env
+from conf import env, logging
 
 
 api_id = env.int("API_ID")
@@ -17,9 +17,11 @@ async def mg_handler(client, msg: types.Message) -> None:
     if msg.media_group_id not in media_group_ids[msg.chat.id]:
         media_group_ids[msg.chat.id].append(msg.media_group_id)
         await bot.copy_media_group(dst_chat, msg.chat.id, msg.message_id)
+        logging.warning("Copied media group message from {}".format(msg.chat.title))
 
-async def handler(client, msg: types.Message) -> None:
+async def m_handler(client, msg: types.Message) -> None:
     await bot.copy_message(dst_chat, msg.chat.id, msg.message_id)
+    logging.warning("Copied media message from {}".format(msg.chat.title))
 
 if __name__ == "__main__":
     if session is None:
@@ -28,12 +30,14 @@ if __name__ == "__main__":
     if (src_chats is None or dst_chat is None):
         print("\nPlease enter SOURCE and DESTINATION in .env file")
         exit(1)
-    print("Bot is starting.")
+    logging.warning("Bot is starting...")
     for i, src_chat in enumerate(src_chats, 1):
         src_chat = int(src_chat)
-        print(src_chat, "handler added.")
+        bot.connect()
+        logging.warning("{} handler added.".format(bot.get_chat(src_chat).title))
+        bot.disconnect()
         bot.add_handler(MessageHandler(mg_handler, filters.chat(src_chat) & filters.media_group))
-        bot.add_handler(MessageHandler(handler, filters.chat(src_chat) & filters.media))
+        bot.add_handler(MessageHandler(m_handler, filters.chat(src_chat) & filters.media))
         media_group_ids[src_chat] = []
-    print("Handlers setup was finished successfully.")
+    logging.warning("Handlers setup was finished successfully.")
     bot.run()
