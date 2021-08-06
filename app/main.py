@@ -11,11 +11,11 @@ src_chats = env.list("SOURCE") or None
 dst_chat = env.int("DESTINATION") or None
 
 bot = Client(session, api_id, api_hash)
-media_group_ids = []
+media_group_ids = dict()
 
 async def mg_handler(client, msg: types.Message) -> None:
-    if msg.media_group_id not in media_group_ids:
-        media_group_ids.append(msg.media_group_id)
+    if msg.media_group_id not in media_group_ids[msg.chat.id]:
+        media_group_ids[msg.chat.id].append(msg.media_group_id)
         await bot.copy_media_group(dst_chat, msg.chat.id, msg.message_id)
 
 async def handler(client, msg: types.Message) -> None:
@@ -34,5 +34,6 @@ if __name__ == "__main__":
         print(src_chat, "handler added.")
         bot.add_handler(MessageHandler(mg_handler, filters.chat(src_chat) & filters.media_group))
         bot.add_handler(MessageHandler(handler, filters.chat(src_chat) & filters.media))
+        media_group_ids[src_chat] = []
     print("Handlers setup was finished successfully.")
     bot.run()
