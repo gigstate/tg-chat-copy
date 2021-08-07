@@ -2,7 +2,7 @@
 
 
 ## What it does
-This bot can copy messages from a chats or channels your choose to another chat (simple user, channel, etc)
+This bot can copy new media messages from a chats or channels your choose to another chat (simple user, channel, etc)
 
 ## How to use
 1. Copy `.env.example` to `.env`.
