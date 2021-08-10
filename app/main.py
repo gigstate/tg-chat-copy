@@ -31,8 +31,7 @@ if __name__ == "__main__":
         print("\nPlease enter SOURCE and DESTINATION in .env file")
         exit(1)
     logging.warning("Bot is starting...")
-    for i, src_chat in enumerate(src_chats, 1):
-        src_chat = int(src_chat)
+    for src_chat in map(int, src_chats):
         bot.connect()
         logging.warning("{} handler added.".format(bot.get_chat(src_chat).title))
         bot.disconnect()
