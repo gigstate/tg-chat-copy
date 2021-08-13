@@ -23,6 +23,10 @@ async def m_handler(client, msg: types.Message) -> None:
     await bot.copy_message(dst_chat, msg.chat.id, msg.message_id)
     logging.warning("Copied media message from {}".format(msg.chat.title))
 
+async def handler(client, msg: types.Message) -> None:
+    await bot.copy_message(dst_chat, msg.chat.id, msg.message_id)
+    logging.warning("Copied text message from {}".format(msg.chat.title))
+
 if __name__ == "__main__":
     if session is None:
         print("\nPlease enter session name in .env file")
@@ -37,6 +41,7 @@ if __name__ == "__main__":
         bot.disconnect()
         bot.add_handler(MessageHandler(mg_handler, filters.chat(src_chat) & filters.media_group))
         bot.add_handler(MessageHandler(m_handler, filters.chat(src_chat) & filters.media))
+        bot.add_handler(MessageHandler(handler, filters.chat(src_chat) & filters.text))
         media_group_ids[src_chat] = []
     logging.warning("Handlers setup was finished successfully.")
     bot.run()
