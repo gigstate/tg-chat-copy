@@ -19,7 +19,7 @@ def rename(file_path: str, folder: str, num: int = None) -> None:
     new_fp = ap + f"/{folder}/" + fp
     new_fp = "".join(new_fp.rsplit('_', 1)[0]) + f"{num}.{ext}"
     try:
-        os.mkdir(f"./downloads/{folder}/")
+        os.mkdir(f"./app/downloads/{folder}/")
     except FileExistsError:
         pass
     os.rename(file_path, new_fp)

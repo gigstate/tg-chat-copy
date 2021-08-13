@@ -6,7 +6,7 @@
 
 `handler.py` - This script can copy new messages from a chats or channels your choose to another chat (simple user, channel, etc)
 
-`downloader.py` - This script can download all medias from a chats or channels your choose to another chat (simple user, channel, etc)
+`downloader.py` - This script can download all medias from a chats or channels your choose to `app/downloads/name` folder.
 ## How to use
 1. Copy `.env.example` to `.env`.
     ```
