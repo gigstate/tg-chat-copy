@@ -19,5 +19,6 @@
    python3 -m pip install -r requirements.txt
    python3 app/copier.py
    python3 app/handler.py
+   python3 app/downloader.py
    ```
 
