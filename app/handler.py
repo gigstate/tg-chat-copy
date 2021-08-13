@@ -1,7 +1,7 @@
 from pyrogram.handlers import MessageHandler
 from pyrogram import Client, filters, types
 from sys import exit
-from conf import env, logging
+from config import env, logging
 
 
 api_id = env.int("API_ID")
