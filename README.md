@@ -3,6 +3,7 @@
 
 ## What it does
 `copier.py` - This script can copy all message history from a chats or channels your choose to another chat (simple user, channel, etc)
+
 `handler.py` - This script can copy new messages from a chats or channels your choose to another chat (simple user, channel, etc)
 ## How to use
 1. Copy `.env.example` to `.env`.
