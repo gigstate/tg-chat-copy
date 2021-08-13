@@ -1,3 +1,4 @@
+import asyncio
 from pyrogram import Client
 from sys import exit
 from config import env, logging
@@ -61,8 +62,12 @@ async def copy_chat(chat_id: int, folder: str) -> None:
         count -= 100
         offset += 100
     
+async def start(tasks):
+    pass    
+
 
 if __name__ == "__main__":
+    loop = asyncio.get_event_loop()
     if session is None:
         print("\nPlease enter session name in .env file")
         exit(1)
@@ -70,9 +75,13 @@ if __name__ == "__main__":
         print("\nPlease enter SOURCE and DESTINATION in .env file")
         exit(1)
     print("Bot is starting...")
+    bot.start()
+    tasks = []
     for src_chat in map(int, src_chats):
-        bot.connect()
         print("{} Downloading,,.".format(folder := bot.get_chat(src_chat).title))
-        bot.run(copy_chat(src_chat, folder))
+        task = copy_chat(src_chat, folder)
+        tasks.append(task)
+    loop.run_until_complete(asyncio.gather(*tasks))
+    loop.close()
     print("Chats downloading was finished successfully.")
     
